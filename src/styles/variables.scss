@@ -1,0 +1,88 @@
+/* =========================
+   COLOR SYSTEM
+========================= */
+
+/* Light Theme Colors */
+$light-colors: (
+  primary: #2563eb,
+  primary-hover: #1d4ed8,
+  secondary: #64748b,
+  success: #16a34a,
+  warning: #f59e0b,
+  danger: #dc2626,
+
+  background: #f8fafc,
+  surface: #ffffff,
+  border: #e5e7eb,
+
+  text-primary: #0f172a,
+  text-secondary: #475569,
+  text-muted: #94a3b8
+);
+
+/* Dark Theme Colors */
+$dark-colors: (
+  primary: #3b82f6,
+  primary-hover: #60a5fa,
+  secondary: #94a3b8,
+  success: #22c55e,
+  warning: #fbbf24,
+  danger: #ef4444,
+
+  background: #020617,
+  surface: #020617,
+  border: #1e293b,
+
+  text-primary: #f8fafc,
+  text-secondary: #cbd5f5,
+  text-muted: #94a3b8
+);
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+$font-primary: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+$font-sizes: (
+  xs: 0.75rem,    // 12px
+  sm: 0.875rem,   // 14px
+  base: 1rem,     // 16px
+  lg: 1.125rem,   // 18px
+  xl: 1.25rem,    // 20px
+  xxl: 1.5rem     // 24px
+);
+
+/* =========================
+   SPACING SCALE
+========================= */
+$spacing: (
+  xs: 0.25rem,
+  sm: 0.5rem,
+  md: 1rem,
+  lg: 1.5rem,
+  xl: 2rem,
+  xxl: 3rem
+);
+
+/* =========================
+   BREAKPOINTS (375 → 2160)
+========================= */
+$breakpoints: (
+  mobile: 375px,
+  tablet: 768px,
+  laptop: 1024px,
+  desktop: 1440px,
+  widescreen: 1920px,
+  ultra: 2160px
+);
+
+/* =========================
+   Z-INDEX SCALE
+========================= */
+$z-index: (
+  base: 1,
+  dropdown: 10,
+  sticky: 100,
+  modal: 1000,
+  toast: 2000
+);
