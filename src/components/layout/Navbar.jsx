@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
+import ROUTES from "../../config/routes";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
@@ -21,14 +22,14 @@ const Navbar = () => {
       <div className="navbar__container container">
         {/* Logo */}
         <div className="navbar__logo">
-          <span className="logo-icon">🛒</span>
-          <span className="logo-text">ShopEase</span>
+          <NavLink to={ROUTES.HOME} className="logo-icon">🛒</NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-text">ShopEase</NavLink>
         </div>
 
         {/* Navigation Links */}
         <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
           <NavLink
-            to="/"
+            to={ROUTES.PRODUCTS}
             end
             className={({ isActive }) =>
               `nav-link ${isActive ? "active" : ""}`
@@ -39,7 +40,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to="/cart"
+            to={ROUTES.CART}
             className={({ isActive }) =>
               `nav-link ${isActive ? "active" : ""}`
             }

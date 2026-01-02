@@ -18,7 +18,6 @@
     display: flex;
     align-items: center;
     gap: map-get($spacing, sm);
-    font-size: map-get($font-sizes, lg);
     font-weight: 600;
     cursor: pointer;
     z-index: map-get($z-index, dropdown) + 1;
@@ -28,6 +27,7 @@
     }
 
     .logo-text {
+      font-size: map-get($font-sizes, lg);
       color: var(--color-primary);
     }
   }
@@ -40,7 +40,6 @@
 
     .nav-link {
       position: relative;
-      font-size: map-get($font-sizes, sm);
       color: var(--color-text-secondary);
       padding: 0.25rem 0;
       transition: color 0.2s ease;
@@ -177,7 +176,6 @@
         padding: map-get($spacing, md) map-get($spacing, lg);
         width: 100%;
         text-align: center;
-        font-size: map-get($font-sizes, base);
         border-bottom: 1px solid var(--color-border);
 
         &:last-of-type {
@@ -229,12 +227,6 @@
 
   /* RESPONSIVE - EXTRA SMALL SCREENS */
   @include respond-max(mobile) {
-    &__logo {
-      .logo-text {
-        font-size: map-get($font-sizes, base);
-      }
-    }
-
     &__actions {
       gap: map-get($spacing, xs);
 
