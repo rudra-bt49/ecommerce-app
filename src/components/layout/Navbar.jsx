@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
+import ROUTES from "../../config/routes";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
@@ -16,22 +17,53 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  /**
+   * Utility to generate classNames conditionally
+   * @param {boolean} condition
+   * @param {string} truthyClass
+   * @param {string} falsyClass
+   * @param {string} defaultClass
+   * @returns {string}
+   */
+  const getClassNames = (
+    condition,
+    truthyClass = "",
+    falsyClass = "",
+    defaultClass = ""
+  ) => {
+    return [
+      defaultClass,
+      condition ? truthyClass : falsyClass
+    ].filter(Boolean).join(" ");
+  };
+
   return (
     <header className="navbar">
       <div className="navbar__container container">
         {/* Logo */}
         <div className="navbar__logo">
-          <span className="logo-icon">🛒</span>
-          <span className="logo-text">ShopEase</span>
+          <NavLink to={ROUTES.HOME} className="logo-icon">
+            🛒
+          </NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-text">
+            ShopEase
+          </NavLink>
         </div>
 
         {/* Navigation Links */}
-        <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
+        <nav
+          className={getClassNames(
+            menuOpen,
+            "navbar__nav--open",
+            "",
+            "navbar__nav"
+          )}
+        >
           <NavLink
-            to="/"
+            to={ROUTES.PRODUCTS}
             end
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              getClassNames(isActive, "active", "", "nav-link")
             }
             onClick={() => setMenuOpen(false)}
           >
@@ -39,9 +71,9 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to="/cart"
+            to={ROUTES.CART}
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              getClassNames(isActive, "active", "", "nav-link")
             }
             onClick={() => setMenuOpen(false)}
           >
@@ -50,19 +82,29 @@ const Navbar = () => {
 
           {/* Mobile only buttons */}
           <div className="navbar__mobile-buttons">
-            <button className="btn btn--outline">Sign Up</button>
-            <button className="btn btn--primary">Login</button>
+            <NavLink to={ROUTES.SIGNUP}>
+              <button className="btn btn--outline">Sign Up</button>
+            </NavLink>
+
+            <NavLink to={ROUTES.LOGIN}>
+              <button className="btn btn--primary">Login</button>
+            </NavLink>
           </div>
         </nav>
 
         {/* Right Actions */}
         <div className="navbar__actions">
-          <button className="btn btn--outline navbar__desktop-btn">
-            Sign Up
-          </button>
-          <button className="btn btn--primary navbar__desktop-btn">
-            Login
-          </button>
+          <NavLink to={ROUTES.SIGNUP}>
+            <button className="btn btn--outline navbar__desktop-btn">
+              Sign Up
+            </button>
+          </NavLink>
+          
+          <NavLink to={ROUTES.LOGIN}>
+            <button className="btn btn--primary navbar__desktop-btn">
+              Login
+            </button>
+          </NavLink>
 
           <button
             className="theme-toggle"
@@ -73,7 +115,12 @@ const Navbar = () => {
           </button>
 
           <button
-            className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`}
+            className={getClassNames(
+              menuOpen,
+              "menu-toggle--open",
+              "",
+              "menu-toggle"
+            )}
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
