@@ -1,0 +1,208 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.footer {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
+  width: 100%;
+
+  &__container {
+    padding-top: map-get($spacing, xxl);
+    padding-bottom: map-get($spacing, lg);
+  }
+
+  /* FOOTER TOP - Main Content */
+  &__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: map-get($spacing, xxl);
+    padding-bottom: map-get($spacing, xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Individual Section */
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, md);
+  }
+
+  /* About Section */
+  &__about {
+    max-width: 350px;
+  }
+
+  /* LOGO */
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, sm);
+    font-size: map-get($font-sizes, lg);
+    font-weight: 600;
+    margin-bottom: map-get($spacing, xs);
+
+    .logo-icon {
+      font-size: 1.4rem;
+    }
+
+    .logo-text {
+      color: var(--color-primary);
+    }
+  }
+
+  /* Description */
+  &__description {
+    font-size: map-get($font-sizes, sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Social Links */
+  &__social {
+    display: flex;
+    gap: map-get($spacing, sm);
+    margin-top: map-get($spacing, xs);
+
+    .social-link {
+      @include flex-center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      transition: all 0.2s ease;
+
+      svg {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+
+      &:hover {
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-background);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  /* Section Title */
+  &__title {
+    font-size: map-get($font-sizes, base);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: map-get($spacing, xs);
+  }
+
+  /* Links List */
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, sm);
+
+    li a {
+      font-size: map-get($font-sizes, sm);
+      color: var(--color-text-secondary);
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: var(--color-primary);
+        padding-left: map-get($spacing, xs);
+      }
+    }
+  }
+
+  /* FOOTER BOTTOM */
+  &__bottom {
+    @include flex-between;
+    padding-top: map-get($spacing, lg);
+    flex-wrap: wrap;
+    gap: map-get($spacing, md);
+  }
+
+  /* Copyright */
+  &__copyright {
+    font-size: map-get($font-sizes, sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* RESPONSIVE DESIGN */
+
+  /* Laptop and below */
+  @include respond-max(laptop) {
+    &__top {
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: map-get($spacing, xl);
+    }
+  }
+
+  /* Tablet and below */
+  @include respond-max(tablet) {
+    &__container {
+      padding-top: map-get($spacing, xl);
+    }
+
+    &__top {
+      grid-template-columns: 1fr 1fr;
+      gap: map-get($spacing, lg);
+    }
+
+    &__about {
+      grid-column: 1 / -1;
+      max-width: 100%;
+    }
+  }
+
+  /* Mobile */
+  @include respond-max(mobile) {
+    &__container {
+      padding-top: map-get($spacing, lg);
+    }
+
+    &__top {
+      grid-template-columns: 1fr;
+      gap: map-get($spacing, lg);
+      padding-bottom: map-get($spacing, lg);
+    }
+
+    &__about {
+      text-align: center;
+      align-items: center;
+    }
+
+    &__logo {
+      justify-content: center;
+    }
+
+    &__section {
+      text-align: center;
+      align-items: center;
+    }
+
+    &__social {
+      justify-content: center;
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, lg);
+    }
+
+    &__links {
+      li a:hover {
+        padding-left: 0;
+      }
+    }
+
+    &__bottom {
+      flex-direction: column;
+      text-align: center;
+      padding-top: map-get($spacing, md);
+      justify-content: center;
+    }
+
+    &__copyright {
+      width: 100%;
+    }
+  }
+}
