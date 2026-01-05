@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../common/Input/Input";
 import { signupSchema } from "../../../utils/validation/signupSchema";
 import { register } from "../../../services/auth/auth.service";
+import ROUTES from "../../../config/routes";
 import "./SignUp.scss";
 
 const SignUp = ({ isOpen, onClose }) => {
@@ -13,7 +14,7 @@ const SignUp = ({ isOpen, onClose }) => {
 
   const handleClose = () => {
     onClose();
-    navigate("/");
+    navigate(ROUTES.HOME);
   };
 
   return createPortal(
@@ -46,7 +47,7 @@ const SignUp = ({ isOpen, onClose }) => {
 
               resetForm();
               onClose();
-              navigate("/login"); 
+              navigate(ROUTES.LOGIN); 
             } catch (error) {
               console.error("Signup failed:", error);
             } finally {

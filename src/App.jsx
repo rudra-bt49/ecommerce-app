@@ -30,7 +30,7 @@ function App() {
 
       <SignUp
         isOpen={showSignup}
-        onClose={() => navigate("/")}
+        onClose={() => navigate(ROUTES.HOME)}
       />
     </>
   );
