@@ -23,18 +23,14 @@ const Login = ({ isOpen, onClose }) => {
         const response = await login(values);
         const { token } = response;
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            username: values.username,
-            token,
-          })
-        );
-
+        // Store token
         localStorage.setItem("token", token);
 
+        // 🔥 Notify Navbar immediately
+        window.dispatchEvent(new Event("auth-changed"));
+
         resetForm();
-        onClose(); // ✅ App handles navigation
+        onClose(); // close modal
       } catch (error) {
         setErrors({
           password: "Invalid username or password",

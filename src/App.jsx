@@ -1,31 +1,44 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import SignUp from "./components/auth/SignUp/SignUp";
 import Login from "./components/auth/Login/Login";
 
-import ROUTES from "./config/routes";
-
 function App() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
-    setShowSignup(location.pathname === ROUTES.SIGNUP);
-    setShowLogin(location.pathname === ROUTES.LOGIN);
-  }, [location.pathname]);
+    const openSignup = () => {
+      setShowSignup(true);
+      setShowLogin(false);
+    };
+
+    const openLogin = () => {
+      setShowLogin(true);
+      setShowSignup(false);
+    };
+
+    const closeAuth = () => {
+      setShowSignup(false);
+      setShowLogin(false);
+    };
+
+    window.addEventListener("open-signup", openSignup);
+    window.addEventListener("open-login", openLogin);
+    window.addEventListener("close-auth", closeAuth);
+
+    return () => {
+      window.removeEventListener("open-signup", openSignup);
+      window.removeEventListener("open-login", openLogin);
+      window.removeEventListener("close-auth", closeAuth);
+    };
+  }, []);
 
   return (
     <>
-      <Navbar
-        onSignupClick={() => navigate(ROUTES.SIGNUP)}
-        onLoginClick={() => navigate(ROUTES.LOGIN)}
-      />
+      <Navbar />
 
       <main className="container">
         <h1>My E-Commerce App</h1>
@@ -35,12 +48,12 @@ function App() {
 
       <SignUp
         isOpen={showSignup}
-        onClose={() => navigate(ROUTES.HOME)}
+        onClose={() => window.dispatchEvent(new Event("close-auth"))}
       />
 
       <Login
         isOpen={showLogin}
-        onClose={() => navigate(ROUTES.HOME)}
+        onClose={() => window.dispatchEvent(new Event("close-auth"))}
       />
     </>
   );

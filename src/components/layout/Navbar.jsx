@@ -1,26 +1,34 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 
-const Navbar = ({ onSignupClick, onLoginClick }) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [theme, setTheme] = useState("light");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(token);
-  }, [location.pathname]);
+    const syncAuthState = () => {
+      setIsAuthenticated(localStorage.getItem("token"));
+    };
+
+    window.addEventListener("auth-changed", syncAuthState);
+
+    return () => {
+      window.removeEventListener("auth-changed", syncAuthState);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    setIsAuthenticated(false);
+    window.dispatchEvent(new Event("auth-changed"));
     navigate(ROUTES.HOME);
   };
 
@@ -30,17 +38,34 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const openSignup = () => {
+    window.dispatchEvent(new Event("open-signup"));
+    setMenuOpen(false);
+  };
 
-  const getClassNames = (
-    condition,
-    truthyClass = "",
-    falsyClass = "",
-    defaultClass = ""
-  ) =>
-    [defaultClass, condition ? truthyClass : falsyClass]
-      .filter(Boolean)
-      .join(" ");
+  const openLogin = () => {
+    window.dispatchEvent(new Event("open-login"));
+    setMenuOpen(false);
+  };
+
+  const renderAuthButtons = () => (
+    <div className="auth-buttons">
+      {!isAuthenticated ? (
+        <>
+          <button className="btn btn--outline" onClick={openSignup}>
+            Sign Up
+          </button>
+          <button className="btn btn--primary" onClick={openLogin}>
+            Login
+          </button>
+        </>
+      ) : (
+        <button className="btn btn--danger" onClick={handleLogout}>
+          Logout
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <header className="navbar">
@@ -52,111 +77,34 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
         </div>
 
         {/* Navigation */}
-        <nav
-          className={getClassNames(
-            menuOpen,
-            "navbar__nav--open",
-            "",
-            "navbar__nav"
-          )}
-        >
-          <NavLink
-            to={ROUTES.PRODUCTS}
-            className={({ isActive }) =>
-              getClassNames(isActive, "active", "", "nav-link")
-            }
-            onClick={() => setMenuOpen(false)}
-          >
+        <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
+          <NavLink to={ROUTES.PRODUCTS} className="nav-link">
             Products
           </NavLink>
-
-          <NavLink
-            to={ROUTES.CART}
-            className={({ isActive }) =>
-              getClassNames(isActive, "active", "", "nav-link")
-            }
-            onClick={() => setMenuOpen(false)}
-          >
+          <NavLink to={ROUTES.CART} className="nav-link">
             Cart
           </NavLink>
 
-          {/* Mobile buttons */}
-          <div className="navbar__mobile-buttons">
-            {!isAuthenticated ? (
-              <>
-                <button
-                  className="btn btn--outline"
-                  onClick={() => {
-                    onSignupClick();
-                    setMenuOpen(false);
-                  }}
-                >
-                  Sign Up
-                </button>
-
-                <button
-                  className="btn btn--primary"
-                  onClick={() => {
-                    onLoginClick();
-                    setMenuOpen(false);
-                  }}
-                >
-                  Login
-                </button>
-              </>
-            ) : (
-              <button
-                className="btn btn--danger"
-                onClick={() => {
-                  handleLogout();
-                  setMenuOpen(false);
-                }}
-              >
-                Logout
-              </button>
-            )}
+          {/* Mobile auth */}
+          <div className="navbar__auth--mobile">
+            {renderAuthButtons()}
           </div>
         </nav>
 
-        {/* Desktop actions */}
+        {/* Actions */}
         <div className="navbar__actions">
-          {!isAuthenticated ? (
-            <>
-              <button
-                className="btn btn--outline navbar__desktop-btn"
-                onClick={onSignupClick}
-              >
-                Sign Up
-              </button>
-
-              <button
-                className="btn btn--primary navbar__desktop-btn"
-                onClick={onLoginClick}
-              >
-                Login
-              </button>
-            </>
-          ) : (
-            <button
-              className="btn btn--danger navbar__desktop-btn"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          )}
+          {/* Desktop auth */}
+          <div className="navbar__auth--desktop">
+            {renderAuthButtons()}
+          </div>
 
           <button className="theme-toggle" onClick={toggleTheme}>
             {theme === "light" ? "🌙" : "☀️"}
           </button>
 
           <button
-            className={getClassNames(
-              menuOpen,
-              "menu-toggle--open",
-              "",
-              "menu-toggle"
-            )}
-            onClick={toggleMenu}
+            className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
             <span className="hamburger"></span>
           </button>
