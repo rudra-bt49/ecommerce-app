@@ -4,6 +4,9 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import SignUp from "./components/auth/SignUp/SignUp";
 import Login from "./components/auth/Login/Login";
+import Products from "./pages/Products/Products";
+import { Routes, Route } from "react-router-dom";
+import ROUTES from "./config/routes.js";
 
 function App() {
   const [showSignup, setShowSignup] = useState(false);
@@ -39,10 +42,11 @@ function App() {
   return (
     <>
       <Navbar />
-
-      <main className="container">
-        <h1>My E-Commerce App</h1>
-      </main>
+      
+      {/* routes */}
+      <Routes>
+        <Route path={ROUTES.PRODUCTS} element={<Products/>} />
+      </Routes>
 
       <Footer />
 
