@@ -1,0 +1,40 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.signup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: map-get($z-index, modal);
+  @include flex-center;
+}
+
+.signup-modal {
+  width: 90%;
+  max-width: 420px;
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  padding: map-get($spacing, lg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    text-align: center;
+    margin-bottom: map-get($spacing, md);
+  }
+
+  @include respond(tablet) {
+    padding: map-get($spacing, xl);
+  }
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: map-get($spacing, md);
+}
+
+.actions {
+  display: flex;
+  gap: map-get($spacing, sm);
+  justify-content: flex-end;
+}
