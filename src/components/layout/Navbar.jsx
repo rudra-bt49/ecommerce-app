@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 
@@ -12,9 +12,10 @@ const Navbar = () => {
     !!localStorage.getItem("token")
   );
 
+  /* 🔁 Sync auth state globally */
   useEffect(() => {
     const syncAuthState = () => {
-      setIsAuthenticated(localStorage.getItem("token"));
+      setIsAuthenticated(!!localStorage.getItem("token"));
     };
 
     window.addEventListener("auth-changed", syncAuthState);
@@ -48,6 +49,17 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
+  /* ✅ Conditional class helper */
+  const getClassNames = (
+    condition,
+    truthyClass = "",
+    falsyClass = "",
+    defaultClass = ""
+  ) =>
+    [defaultClass, condition ? truthyClass : falsyClass]
+      .filter(Boolean)
+      .join(" ");
+
   const renderAuthButtons = () => (
     <div className="auth-buttons">
       {!isAuthenticated ? (
@@ -72,15 +84,27 @@ const Navbar = () => {
       <div className="navbar__container container">
         {/* Logo */}
         <div className="navbar__logo">
-          <NavLink to={ROUTES.HOME} className="logo-icon">🛒</NavLink>
-          <NavLink to={ROUTES.HOME} className="logo-text">ShopEase</NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-icon">
+            🛒
+          </NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-text">
+            ShopEase
+          </NavLink>
         </div>
 
         {/* Navigation */}
-        <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
+        <nav
+          className={getClassNames(
+            menuOpen,
+            "navbar__nav--open",
+            "",
+            "navbar__nav"
+          )}
+        >
           <NavLink to={ROUTES.PRODUCTS} className="nav-link">
             Products
           </NavLink>
+
           <NavLink to={ROUTES.CART} className="nav-link">
             Cart
           </NavLink>
@@ -103,7 +127,12 @@ const Navbar = () => {
           </button>
 
           <button
-            className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`}
+            className={getClassNames(
+              menuOpen,
+              "menu-toggle--open",
+              "",
+              "menu-toggle"
+            )}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span className="hamburger"></span>
