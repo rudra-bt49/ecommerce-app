@@ -1,26 +1,35 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 
-const Navbar = ({ onSignupClick, onLoginClick }) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [theme, setTheme] = useState("light");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
 
+  /* 🔁 Sync auth state globally */
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(token);
-  }, [location.pathname]);
+    const syncAuthState = () => {
+      setIsAuthenticated(!!localStorage.getItem("token"));
+    };
+
+    window.addEventListener("auth-changed", syncAuthState);
+
+    return () => {
+      window.removeEventListener("auth-changed", syncAuthState);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    setIsAuthenticated(false);
+    window.dispatchEvent(new Event("auth-changed"));
     navigate(ROUTES.HOME);
   };
 
@@ -30,8 +39,17 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const openSignup = () => {
+    window.dispatchEvent(new Event("open-signup"));
+    setMenuOpen(false);
+  };
 
+  const openLogin = () => {
+    window.dispatchEvent(new Event("open-login"));
+    setMenuOpen(false);
+  };
+
+  /* ✅ Conditional class helper */
   const getClassNames = (
     condition,
     truthyClass = "",
@@ -42,13 +60,36 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
       .filter(Boolean)
       .join(" ");
 
+  const renderAuthButtons = () => (
+    <div className="auth-buttons">
+      {!isAuthenticated ? (
+        <>
+          <button className="btn btn--outline" onClick={openSignup}>
+            Sign Up
+          </button>
+          <button className="btn btn--primary" onClick={openLogin}>
+            Login
+          </button>
+        </>
+      ) : (
+        <button className="btn btn--danger" onClick={handleLogout}>
+          Logout
+        </button>
+      )}
+    </div>
+  );
+
   return (
     <header className="navbar">
       <div className="navbar__container container">
         {/* Logo */}
         <div className="navbar__logo">
-          <NavLink to={ROUTES.HOME} className="logo-icon">🛒</NavLink>
-          <NavLink to={ROUTES.HOME} className="logo-text">ShopEase</NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-icon">
+            🛒
+          </NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-text">
+            ShopEase
+          </NavLink>
         </div>
 
         {/* Navigation */}
@@ -60,90 +101,26 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
             "navbar__nav"
           )}
         >
-          <NavLink
-            to={ROUTES.PRODUCTS}
-            className={({ isActive }) =>
-              getClassNames(isActive, "active", "", "nav-link")
-            }
-            onClick={() => setMenuOpen(false)}
-          >
+          <NavLink to={ROUTES.PRODUCTS} className="nav-link">
             Products
           </NavLink>
 
-          <NavLink
-            to={ROUTES.CART}
-            className={({ isActive }) =>
-              getClassNames(isActive, "active", "", "nav-link")
-            }
-            onClick={() => setMenuOpen(false)}
-          >
+          <NavLink to={ROUTES.CART} className="nav-link">
             Cart
           </NavLink>
 
-          {/* Mobile buttons */}
-          <div className="navbar__mobile-buttons">
-            {!isAuthenticated ? (
-              <>
-                <button
-                  className="btn btn--outline"
-                  onClick={() => {
-                    onSignupClick();
-                    setMenuOpen(false);
-                  }}
-                >
-                  Sign Up
-                </button>
-
-                <button
-                  className="btn btn--primary"
-                  onClick={() => {
-                    onLoginClick();
-                    setMenuOpen(false);
-                  }}
-                >
-                  Login
-                </button>
-              </>
-            ) : (
-              <button
-                className="btn btn--danger"
-                onClick={() => {
-                  handleLogout();
-                  setMenuOpen(false);
-                }}
-              >
-                Logout
-              </button>
-            )}
+          {/* Mobile auth */}
+          <div className="navbar__auth--mobile">
+            {renderAuthButtons()}
           </div>
         </nav>
 
-        {/* Desktop actions */}
+        {/* Actions */}
         <div className="navbar__actions">
-          {!isAuthenticated ? (
-            <>
-              <button
-                className="btn btn--outline navbar__desktop-btn"
-                onClick={onSignupClick}
-              >
-                Sign Up
-              </button>
-
-              <button
-                className="btn btn--primary navbar__desktop-btn"
-                onClick={onLoginClick}
-              >
-                Login
-              </button>
-            </>
-          ) : (
-            <button
-              className="btn btn--danger navbar__desktop-btn"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          )}
+          {/* Desktop auth */}
+          <div className="navbar__auth--desktop">
+            {renderAuthButtons()}
+          </div>
 
           <button className="theme-toggle" onClick={toggleTheme}>
             {theme === "light" ? "🌙" : "☀️"}
@@ -156,7 +133,7 @@ const Navbar = ({ onSignupClick, onLoginClick }) => {
               "",
               "menu-toggle"
             )}
-            onClick={toggleMenu}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
             <span className="hamburger"></span>
           </button>
