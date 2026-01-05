@@ -1,11 +1,28 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 
-const Navbar = ({ onSignupClick }) => {
+const Navbar = ({ onSignupClick, onLoginClick }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [theme, setTheme] = useState("light");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(token);
+  }, [location.pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setIsAuthenticated(false);
+    navigate(ROUTES.HOME);
+  };
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -45,7 +62,6 @@ const Navbar = ({ onSignupClick }) => {
         >
           <NavLink
             to={ROUTES.PRODUCTS}
-            end
             className={({ isActive }) =>
               getClassNames(isActive, "active", "", "nav-link")
             }
@@ -66,36 +82,68 @@ const Navbar = ({ onSignupClick }) => {
 
           {/* Mobile buttons */}
           <div className="navbar__mobile-buttons">
-            <button
-              className="btn btn--outline"
-              onClick={() => {
-                onSignupClick();
-                setMenuOpen(false);
-              }}
-            >
-              Sign Up
-            </button>
+            {!isAuthenticated ? (
+              <>
+                <button
+                  className="btn btn--outline"
+                  onClick={() => {
+                    onSignupClick();
+                    setMenuOpen(false);
+                  }}
+                >
+                  Sign Up
+                </button>
 
-            <NavLink to={ROUTES.LOGIN}>
-              <button className="btn btn--primary">Login</button>
-            </NavLink>
+                <button
+                  className="btn btn--primary"
+                  onClick={() => {
+                    onLoginClick();
+                    setMenuOpen(false);
+                  }}
+                >
+                  Login
+                </button>
+              </>
+            ) : (
+              <button
+                className="btn btn--danger"
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </nav>
 
         {/* Desktop actions */}
         <div className="navbar__actions">
-          <button
-            className="btn btn--outline navbar__desktop-btn"
-            onClick={onSignupClick}
-          >
-            Sign Up
-          </button>
+          {!isAuthenticated ? (
+            <>
+              <button
+                className="btn btn--outline navbar__desktop-btn"
+                onClick={onSignupClick}
+              >
+                Sign Up
+              </button>
 
-          <NavLink to={ROUTES.LOGIN}>
-            <button className="btn btn--primary navbar__desktop-btn">
-              Login
+              <button
+                className="btn btn--primary navbar__desktop-btn"
+                onClick={onLoginClick}
+              >
+                Login
+              </button>
+            </>
+          ) : (
+            <button
+              className="btn btn--danger navbar__desktop-btn"
+              onClick={handleLogout}
+            >
+              Logout
             </button>
-          </NavLink>
+          )}
 
           <button className="theme-toggle" onClick={toggleTheme}>
             {theme === "light" ? "🌙" : "☀️"}

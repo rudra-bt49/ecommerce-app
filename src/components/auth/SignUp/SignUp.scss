@@ -17,11 +17,6 @@
   padding: map-get($spacing, lg);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 
-  h2 {
-    text-align: center;
-    margin-bottom: map-get($spacing, md);
-  }
-
   @include respond(tablet) {
     padding: map-get($spacing, xl);
   }
