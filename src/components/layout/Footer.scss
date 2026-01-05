@@ -38,7 +38,6 @@
     display: flex;
     align-items: center;
     gap: map-get($spacing, sm);
-    font-size: map-get($font-sizes, lg);
     font-weight: 600;
     margin-bottom: map-get($spacing, xs);
 
@@ -47,13 +46,13 @@
     }
 
     .logo-text {
+      font-size: map-get($font-sizes, lg);
       color: var(--color-primary);
     }
   }
 
   /* Description */
   &__description {
-    font-size: map-get($font-sizes, sm);
     color: var(--color-text-secondary);
     line-height: 1.6;
   }
@@ -89,7 +88,6 @@
 
   /* Section Title */
   &__title {
-    font-size: map-get($font-sizes, base);
     font-weight: 600;
     color: var(--color-text-primary);
     margin-bottom: map-get($spacing, xs);
@@ -102,7 +100,6 @@
     gap: map-get($spacing, sm);
 
     li a {
-      font-size: map-get($font-sizes, sm);
       color: var(--color-text-secondary);
       transition: all 0.2s ease;
 
@@ -123,12 +120,10 @@
 
   /* Copyright */
   &__copyright {
-    font-size: map-get($font-sizes, sm);
     color: var(--color-text-secondary);
   }
 
   /* RESPONSIVE DESIGN */
-
   /* Laptop and below */
   @include respond-max(laptop) {
     &__top {
@@ -183,11 +178,7 @@
     &__social {
       justify-content: center;
     }
-
-    &__title {
-      font-size: map-get($font-sizes, lg);
-    }
-
+    
     &__links {
       li a:hover {
         padding-left: 0;

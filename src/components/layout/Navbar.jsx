@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
+import ROUTES from "../../config/routes";
 
-const Navbar = () => {
+const Navbar = ({ onSignupClick }) => {
   const [theme, setTheme] = useState("light");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -12,26 +13,41 @@ const Navbar = () => {
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const getClassNames = (
+    condition,
+    truthyClass = "",
+    falsyClass = "",
+    defaultClass = ""
+  ) =>
+    [defaultClass, condition ? truthyClass : falsyClass]
+      .filter(Boolean)
+      .join(" ");
 
   return (
     <header className="navbar">
       <div className="navbar__container container">
         {/* Logo */}
         <div className="navbar__logo">
-          <span className="logo-icon">🛒</span>
-          <span className="logo-text">ShopEase</span>
+          <NavLink to={ROUTES.HOME} className="logo-icon">🛒</NavLink>
+          <NavLink to={ROUTES.HOME} className="logo-text">ShopEase</NavLink>
         </div>
 
-        {/* Navigation Links */}
-        <nav className={`navbar__nav ${menuOpen ? "navbar__nav--open" : ""}`}>
+        {/* Navigation */}
+        <nav
+          className={getClassNames(
+            menuOpen,
+            "navbar__nav--open",
+            "",
+            "navbar__nav"
+          )}
+        >
           <NavLink
-            to="/"
+            to={ROUTES.PRODUCTS}
             end
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              getClassNames(isActive, "active", "", "nav-link")
             }
             onClick={() => setMenuOpen(false)}
           >
@@ -39,43 +55,60 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to="/cart"
+            to={ROUTES.CART}
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              getClassNames(isActive, "active", "", "nav-link")
             }
             onClick={() => setMenuOpen(false)}
           >
             Cart
           </NavLink>
 
-          {/* Mobile only buttons */}
+          {/* Mobile buttons */}
           <div className="navbar__mobile-buttons">
-            <button className="btn btn--outline">Sign Up</button>
-            <button className="btn btn--primary">Login</button>
+            <button
+              className="btn btn--outline"
+              onClick={() => {
+                onSignupClick();
+                setMenuOpen(false);
+              }}
+            >
+              Sign Up
+            </button>
+
+            <NavLink to={ROUTES.LOGIN}>
+              <button className="btn btn--primary">Login</button>
+            </NavLink>
           </div>
         </nav>
 
-        {/* Right Actions */}
+        {/* Desktop actions */}
         <div className="navbar__actions">
-          <button className="btn btn--outline navbar__desktop-btn">
+          <button
+            className="btn btn--outline navbar__desktop-btn"
+            onClick={onSignupClick}
+          >
             Sign Up
           </button>
-          <button className="btn btn--primary navbar__desktop-btn">
-            Login
-          </button>
 
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
+          <NavLink to={ROUTES.LOGIN}>
+            <button className="btn btn--primary navbar__desktop-btn">
+              Login
+            </button>
+          </NavLink>
+
+          <button className="theme-toggle" onClick={toggleTheme}>
             {theme === "light" ? "🌙" : "☀️"}
           </button>
 
           <button
-            className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`}
+            className={getClassNames(
+              menuOpen,
+              "menu-toggle--open",
+              "",
+              "menu-toggle"
+            )}
             onClick={toggleMenu}
-            aria-label="Toggle menu"
           >
             <span className="hamburger"></span>
           </button>
