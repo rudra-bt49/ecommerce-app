@@ -1,0 +1,28 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: map-get($z-index, modal);
+  @include flex-center;
+}
+
+.login-modal {
+  background: var(--color-surface);
+  padding: map-get($spacing, xl);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-group {
+  margin-bottom: map-get($spacing, md);
+}
+
+.login-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: map-get($spacing, lg);
+}
