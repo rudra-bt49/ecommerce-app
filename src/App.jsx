@@ -1,28 +1,9 @@
-// import Navbar from "./components/layout/Navbar";
-// import Footer from "./components/layout/Footer";
-
-// function App() {
-//   return (
-//     <>
-//       <Navbar />
-//       <h1>My E-Commerce App</h1>
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-
-
-
-
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import SignUp from "./components/auth/SignUp/SignUp";
+import ROUTES from "./config/routes";
 
 function App() {
   const location = useLocation();
@@ -30,7 +11,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
-    if (location.pathname === "/register") {
+    if (location.pathname === ROUTES.SIGNUP) {
       setShowSignup(true);
     } else {
       setShowSignup(false);
@@ -39,7 +20,7 @@ function App() {
 
   return (
     <>
-      <Navbar onSignupClick={() => navigate("/register")} />
+      <Navbar onSignupClick={() => navigate(ROUTES.SIGNUP)} />
 
       <main className="container">
         <h1>My E-Commerce App</h1>

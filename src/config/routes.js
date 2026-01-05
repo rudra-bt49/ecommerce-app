@@ -1,4 +1,3 @@
-// Central configuration for all application routes
 const ROUTES = {
   HOME: '/',
   PRODUCTS: '/',

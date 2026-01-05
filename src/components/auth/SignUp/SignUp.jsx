@@ -40,21 +40,6 @@ const SignUp = ({ isOpen, onClose }) => {
                 email: values.email,
                 username: values.username,
                 password: values.password,
-                // name: {
-                //   firstname: values.username,
-                //   lastname: "User",
-                // },
-                // address: {
-                //   city: "NA",
-                //   street: "NA",
-                //   number: 1,
-                //   zipcode: "00000",
-                //   geolocation: {
-                //     lat: "0",
-                //     long: "0",
-                //   },
-                // },
-                // phone: "9999999999",
               };
 
               await register(payload); //api call
