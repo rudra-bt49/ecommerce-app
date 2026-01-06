@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
+import getClassNames from "../../utils/getClassNames";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -48,17 +49,6 @@ const Navbar = () => {
     window.dispatchEvent(new Event("open-login"));
     setMenuOpen(false);
   };
-
-  /* ✅ Conditional class helper */
-  const getClassNames = (
-    condition,
-    truthyClass = "",
-    falsyClass = "",
-    defaultClass = ""
-  ) =>
-    [defaultClass, condition ? truthyClass : falsyClass]
-      .filter(Boolean)
-      .join(" ");
 
   const renderAuthButtons = () => (
     <div className="auth-buttons">

@@ -1,15 +1,5 @@
 import "./AddToCart.scss";
-
-/* ✅ Conditional class helper */
-const getClassNames = (
-  condition,
-  truthyClass = "",
-  falsyClass = "",
-  defaultClass = ""
-) =>
-  [defaultClass, condition ? truthyClass : falsyClass]
-    .filter(Boolean)
-    .join(" ");
+import getClassNames from "../../../utils/getClassNames";
 
 const AddToCart = ({ fullWidth = false, className = "" }) => {
   const handleAddToCart = (e) => {
