@@ -10,20 +10,15 @@ const ProductFilter = ({
   selectedPrice,
   onPriceChange,
 }) => {
-  // Calculate percentage for the gradient
   const percentage = (selectedPrice / maxPrice) * 100;
 
   return (
     <section className="product-filter">
       <div className="product-filter__container">
-        {/* Categories */}
         <div className="product-filter__categories">
           {["all", ...categories].map((category) => (
             <button
               key={category}
-            //   className={`product-filter__category ${
-            //     selectedCategory === category ? "active" : ""
-            //   }`}
               className={getClassNames(
                 selectedCategory === category,
                 "active",
@@ -36,7 +31,6 @@ const ProductFilter = ({
             </button>
           ))}
         </div>
-        {/* Price Range */}
         <div className="product-filter__price">
           <label>
             Max Price: <strong>${selectedPrice}</strong>

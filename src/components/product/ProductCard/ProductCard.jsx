@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        <AddToCart fullWidth />
+        <AddToCart fullWidth product={product} />
       </div>
     </article>
   );

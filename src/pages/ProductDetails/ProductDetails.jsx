@@ -50,7 +50,7 @@ const ProductDetails = () => {
             {product.description}
           </p>
 
-          <AddToCart />
+          <AddToCart fullWidth product={product}/>
         </div>
       </div>
     </section>
