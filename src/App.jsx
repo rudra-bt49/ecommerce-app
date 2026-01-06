@@ -47,7 +47,7 @@ function App() {
       {/* routes */}
       <Routes>
         <Route path={ROUTES.PRODUCTS} element={<Products/>} />
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path={ROUTES.PRODUCT_DETAILS} element={<ProductDetails />} />
       </Routes>
 
       <Footer />

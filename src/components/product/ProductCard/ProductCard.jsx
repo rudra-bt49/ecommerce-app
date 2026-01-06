@@ -1,15 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import AddToCart from "../../common/AddToCart/AddToCart";
+import ROUTES from "../../../config/routes";
 import "./ProductCard.scss";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const { id, title, price, image, category, rating } = product;
 
+  const goToDetails = () => {
+    navigate(ROUTES.PRODUCT_DETAILS.replace(":id", id));
+  };
+
   return (
     <article
       className="product-card"
-      onClick={() => navigate(`/products/${id}`)}
+      onClick={goToDetails}
     >
       <div className="product-card__image-wrapper">
         <img src={image} alt={title} />
