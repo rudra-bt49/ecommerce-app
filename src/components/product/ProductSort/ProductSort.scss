@@ -1,0 +1,41 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.product-sort {
+  margin-bottom: map-get($spacing, lg);
+
+  &__container {
+    @include flex-between;
+    gap: map-get($spacing, md);
+    padding: map-get($spacing, md);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+
+    @include respond-max(tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__label {
+    font-size: map-get($font-sizes, sm);
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  &__select {
+    padding: 0.5rem 0.75rem;
+    font-size: map-get($font-sizes, sm);
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+  }
+}

@@ -14,15 +14,62 @@
   padding: map-get($spacing, xl);
   border-radius: 12px;
   width: 100%;
-  max-width: 420px;
+  max-width: 520px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    margin: 0 0 map-get($spacing, xl) 0;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
 }
 
-.form-group {
-  margin-bottom: map-get($spacing, md);
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: map-get($spacing, lg);
+
+  .form-group {
+    margin-bottom: 0; // Remove default margin since we're using gap
+  }
 }
 
 .login-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: map-get($spacing, lg);
+  gap: map-get($spacing, md);
+  margin-top: map-get($spacing, xl);
+
+  .btn {
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+
+    &--outline {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+
+      &:hover {
+        background: var(--color-surface-hover);
+      }
+    }
+
+    &--primary {
+      background: #2563eb;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: #1d4ed8;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
