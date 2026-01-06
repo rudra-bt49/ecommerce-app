@@ -3,41 +3,38 @@
 
 .product-card {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   }
 
-  /* ✅ FIXED IMAGE AREA */
   &__image-wrapper {
-    height: 240px; /* SAME HEIGHT FOR ALL */
-    background-color: #ffffff;
+    background-color: #fff;
     padding: map-get($spacing, md);
+    height: 200px;
+    @include flex-center;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include respond(tablet) {
+      height: 220px;
+    }
+
+    @include respond(desktop) {
+      height: 240px;
+    }
 
     img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-    }
-
-    @include respond(tablet) {
-      height: 260px;
-    }
-
-    @include respond(desktop) {
-      height: 280px;
     }
   }
 
@@ -52,7 +49,7 @@
     font-size: map-get($font-sizes, sm);
     font-weight: 600;
     margin-bottom: map-get($spacing, xs);
-    @include truncate(2);
+    @include truncate(1);
   }
 
   &__category {
@@ -75,9 +72,8 @@
   &__rating {
     font-size: map-get($font-sizes, xs);
     color: var(--color-text-secondary);
-  }
-
-  &__btn {
-    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 }

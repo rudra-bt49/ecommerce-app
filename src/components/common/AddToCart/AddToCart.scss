@@ -1,0 +1,35 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.add-to-cart {
+  height: 44px;
+  padding-inline: 20px;
+
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+
+  font-size: map-get($font-sizes, sm);
+  font-weight: 600;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &--full {
+    width: 100%;
+  }
+}
