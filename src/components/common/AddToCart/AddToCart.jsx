@@ -1,20 +1,21 @@
 import "./AddToCart.scss";
 import getClassNames from "../../../utils/getClassNames";
+import { useCart } from "../../../context/CartContext";
 
-const AddToCart = ({ fullWidth = false, className = "" }) => {
+const AddToCart = ({ fullWidth = false, className = "", product }) => {
+  const { addToCart } = useCart();
+
   const handleAddToCart = (e) => {
-    // Prevent navigation when used inside clickable cards
     e.stopPropagation();
 
     const token = localStorage.getItem("token");
-
     if (!token) {
       window.dispatchEvent(new Event("open-login"));
       return;
     }
 
-    alert("Product Added in Cart");
-    console.log("Product Added in Cart");
+    addToCart(product);
+    alert("Product Added to Cart");
   };
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 import getClassNames from "../../utils/getClassNames";
@@ -95,8 +96,9 @@ const Navbar = () => {
             Products
           </NavLink>
 
-          <NavLink to={ROUTES.CART} className="nav-link">
-            Cart
+          <NavLink to={ROUTES.CART} className="nav-link nav-link--cart">
+            <ShoppingCart size={20}/>
+            <span>{` My Cart`}</span>
           </NavLink>
 
           {/* Mobile auth */}
