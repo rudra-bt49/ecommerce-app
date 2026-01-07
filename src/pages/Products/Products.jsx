@@ -113,6 +113,8 @@ const Products = () => {
     startIndex + ITEMS_PER_PAGE
   );
 
+  const noProductsFound = filteredProducts.length === 0;
+
   return (
     <section className="products">
       <div className="products__container">
@@ -137,33 +139,42 @@ const Products = () => {
           onSortChange={setSortOption}
         />
 
-        <div className="products__grid">
-          {paginatedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {/* ✅ NO PRODUCTS FOUND MESSAGE */}
+        {noProductsFound ? (
+          <p className="products__status">
+            No products found. Try adjusting your search or filters.
+          </p>
+        ) : (
+          <>
+            <div className="products__grid">
+              {paginatedProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
 
-        <div className="products__pagination">
-          <button
-            className="btn btn--secondary"
-            onClick={() => setCurrentPage((p) => p - 1)}
-            disabled={currentPage <= 1}
-          >
-            {"<< Previous"}
-          </button>
+            <div className="products__pagination">
+              <button
+                className="btn btn--secondary"
+                onClick={() => setCurrentPage((p) => p - 1)}
+                disabled={currentPage <= 1}
+              >
+                {"<< Previous"}
+              </button>
 
-          <span className="products__page-info">
-            Page {currentPage} of {totalPages}
-          </span>
+              <span className="products__page-info">
+                Page {currentPage} of {totalPages}
+              </span>
 
-          <button
-            className="btn btn--secondary"
-            onClick={() => setCurrentPage((p) => p + 1)}
-            disabled={currentPage >= totalPages}
-          >
-            {"Next >>"}
-          </button>
-        </div>
+              <button
+                className="btn btn--secondary"
+                onClick={() => setCurrentPage((p) => p + 1)}
+                disabled={currentPage >= totalPages}
+              >
+                {"Next >>"}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

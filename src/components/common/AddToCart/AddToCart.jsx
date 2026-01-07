@@ -1,10 +1,22 @@
+import { useState } from "react";
 import "./AddToCart.scss";
 import getClassNames from "../../../utils/getClassNames";
 import { useCart } from "../../../context/CartContext";
 import { createCart } from "../../../services/cart/cart.service";
+import Snackbar from "../../common/Snackbar/Snackbar";
 
 const AddToCart = ({ fullWidth = false, className = "", product }) => {
   const { addToCart } = useCart();
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    type: "success",
+  });
+
+  const showSnackbar = (message, type = "success") => {
+    setSnackbar({ open: true, message, type });
+  };
 
   const handleAddToCart = async (e) => {
     e.stopPropagation();
@@ -33,25 +45,42 @@ const AddToCart = ({ fullWidth = false, className = "", product }) => {
       }
 
       addToCart(product);
-      alert("Product Added to Cart");
+
+      // ✅ Snackbar instead of alert
+      showSnackbar("Product added to cart successfully 🧺");
     } catch (error) {
       console.error("Add to cart error:", error);
-      alert("Unable to add product to cart. Please try again.");
+      showSnackbar(
+        "Unable to add product to cart. Please try again.",
+        "error"
+      );
     }
   };
 
   return (
-    <button
-      className={getClassNames(
-        fullWidth,
-        "add-to-cart--full",
-        "",
-        `add-to-cart ${className}`
-      )}
-      onClick={handleAddToCart}
-    >
-      🧺 Add to Cart
-    </button>
+    <>
+      <button
+        className={getClassNames(
+          fullWidth,
+          "add-to-cart--full",
+          "",
+          `add-to-cart ${className}`
+        )}
+        onClick={handleAddToCart}
+      >
+        🧺 Add to Cart
+      </button>
+
+      {/* ✅ Snackbar */}
+      <Snackbar
+        isOpen={snackbar.open}
+        message={snackbar.message}
+        type={snackbar.type}
+        onClose={() =>
+          setSnackbar((prev) => ({ ...prev, open: false }))
+        }
+      />
+    </>
   );
 };
 
