@@ -7,7 +7,7 @@
 
   &__title {
     text-align: center;
-    margin-bottom: map-get($spacing, xl);
+    margin-bottom: map-get($spacing, lg);
   }
 
   &__empty {
@@ -18,48 +18,65 @@
   &__items {
     display: flex;
     flex-direction: column;
-    gap: map-get($spacing, lg);
+    gap: map-get($spacing, md);
   }
 
   &__summary {
-    margin-top: map-get($spacing, xxl);
+    margin-top: map-get($spacing, xl);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: map-get($spacing, md);
+    gap: map-get($spacing, sm);
+
+    h3 {
+      font-size: map-get($font-sizes, lg);
+    }
+
+    button {
+      width: 100%;
+      max-width: 320px;
+    }
   }
 }
 
 /* =========================
    CART ITEM
 ========================= */
-
 .cart-item {
   display: grid;
   grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: map-get($spacing, xl);
-  padding: map-get($spacing, lg);
+  gap: map-get($spacing, lg);
+  padding: map-get($spacing, md);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   background: var(--color-surface);
 
-  @include respond(mobile) {
+  @include respond-max(mobile) {
     grid-template-columns: 1fr;
+    gap: map-get($spacing, md);
+    padding: map-get($spacing, sm);
   }
 
-  /* LEFT SIDE */
   &__left {
     display: flex;
-    align-items: center;
-    gap: map-get($spacing, lg);
+    gap: map-get($spacing, md);
+
+    @include respond-max(mobile) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
   }
 
   img {
-    width: 120px;
-    height: 120px;
+    width: 96px;
+    height: 96px;
     object-fit: contain;
-    flex-shrink: 0;
+
+    @include respond-max(mobile) {
+      width: 80px;
+      height: 80px;
+    }
   }
 
   &__details {
@@ -68,7 +85,7 @@
     gap: map-get($spacing, xs);
 
     h3 {
-      font-size: map-get($font-sizes, md);
+      font-size: map-get($font-sizes, sm);
     }
   }
 
@@ -77,71 +94,56 @@
     color: var(--color-text-secondary);
   }
 
-  /* RIGHT SIDE */
   &__right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: map-get($spacing, sm);
-    min-width: 160px;
+    gap: map-get($spacing, xs);
 
-    @include respond(mobile) {
-      align-items: flex-start;
+    @include respond-max(mobile) {
+      align-items: center;
     }
   }
 
-  /* QUANTITY */
   &__qty {
     display: flex;
     align-items: center;
-    gap: map-get($spacing, sm);
+    gap: map-get($spacing, xs);
 
     button {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
       border-radius: 6px;
       border: 1px solid var(--color-border);
       background: var(--color-surface);
-      color: var(--color-text-primary);
-      font-size: 18px;
-      font-weight: 700;
+      color: var(--color-text);
       cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
 
       &:hover {
         background: var(--color-primary);
-        color: #ffffff;
-      }
-
-      &:active {
-        transform: scale(0.96);
+        color: #fff;
       }
     }
 
     span {
-      min-width: 24px;
+      min-width: 20px;
       text-align: center;
       font-weight: 600;
-      color: var(--color-text-primary);
     }
   }
 
-  /* SUBTOTAL */
   &__subtotal {
+    font-size: map-get($font-sizes, sm);
     font-weight: 600;
     color: var(--color-primary);
   }
 
-  /* DELETE */
   &__delete {
     background: transparent;
     border: none;
     cursor: pointer;
     color: var(--color-danger);
-    padding: 4px;
-
-    &:hover {
-      transform: scale(1.1);
-    }
+    margin-top: 4px;
   }
 }

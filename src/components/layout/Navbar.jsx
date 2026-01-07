@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, UserRound } from "lucide-react";
 import "./Navbar.scss";
 import ROUTES from "../../config/routes";
 import getClassNames from "../../utils/getClassNames";
@@ -101,6 +101,13 @@ const Navbar = () => {
             <ShoppingCart size={20}/>
             <span>{` My Cart`}</span>
           </NavLink>
+
+          {isAuthenticated && (
+            <NavLink to={ROUTES.PROFILE} className="nav-link">
+              <UserRound size={24} />      
+              {`My Profile`}
+            </NavLink>
+          )}
 
           {/* Mobile auth */}
           <div className="navbar__auth--mobile">
