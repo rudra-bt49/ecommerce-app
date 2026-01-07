@@ -1,16 +1,75 @@
+import { Trash2 } from "lucide-react";
 import { useCart } from "../../context/CartContext";
+import {
+  updateCart,
+  deleteCart,
+} from "../../services/cart/cart.service";
 import "./Cart.scss";
 
 const Cart = () => {
   const {
     cartItems,
     updateQuantity,
+    removeFromCart,
     clearCart,
     totalAmount,
   } = useCart();
 
+  const cartId = localStorage.getItem("cartId");
+  const userId = localStorage.getItem("userId");
+
+  const handleDelete = async (productId) => {
+    if (!cartId) return;
+
+    try {
+      await deleteCart(cartId);
+
+      removeFromCart(productId);
+
+      const updatedItems = cartItems.filter(
+        (item) => item.id !== productId
+      );
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(updatedItems)
+      );
+    } catch (error) {
+      console.error("Delete cart error:", error);
+      alert("Unable to remove item from cart");
+    }
+  };
+
+  const handleUpdateQuantity = async (
+    productId,
+    newQuantity
+  ) => {
+    if (!cartId || newQuantity < 1) return;
+
+    const productsPayload = cartItems.map((item) => ({
+      productId: item.id,
+      quantity:
+        item.id === productId
+          ? newQuantity
+          : item.quantity,
+    }));
+
+    try {
+      await updateCart(cartId, {
+        id: Number(cartId),
+        userId: Number(userId),
+        products: productsPayload,
+      });
+
+      updateQuantity(productId, newQuantity);
+    } catch (error) {
+      console.error("Update cart error:", error);
+      alert("Unable to update quantity");
+    }
+  };
+
   const placeOrder = () => {
     clearCart();
+    localStorage.removeItem("cartId");
     alert("Order Placed Successfully 🎉");
   };
 
@@ -36,10 +95,14 @@ const Cart = () => {
             </div>
 
             <div className="cart-item__right">
+              {/* Quantity */}
               <div className="cart-item__qty">
                 <button
                   onClick={() =>
-                    updateQuantity(item.id, item.quantity - 1)
+                    handleUpdateQuantity(
+                      item.id,
+                      item.quantity - 1
+                    )
                   }
                 >
                   −
@@ -49,17 +112,30 @@ const Cart = () => {
 
                 <button
                   onClick={() =>
-                    updateQuantity(item.id, item.quantity + 1)
+                    handleUpdateQuantity(
+                      item.id,
+                      item.quantity + 1
+                    )
                   }
                 >
                   +
                 </button>
               </div>
 
+              {/* Subtotal */}
               <p className="cart-item__subtotal">
                 Subtotal: $
                 {(item.price * item.quantity).toFixed(2)}
               </p>
+
+              {/* Delete */}
+              <button
+                className="cart-item__delete"
+                onClick={() => handleDelete(item.id)}
+                aria-label="Remove item"
+              >
+                <Trash2 size={18} />
+              </button>
             </div>
           </div>
         ))}
