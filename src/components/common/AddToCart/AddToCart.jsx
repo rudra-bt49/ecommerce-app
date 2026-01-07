@@ -1,21 +1,43 @@
 import "./AddToCart.scss";
 import getClassNames from "../../../utils/getClassNames";
 import { useCart } from "../../../context/CartContext";
+import { createCart } from "../../../services/cart/cart.service";
 
 const AddToCart = ({ fullWidth = false, className = "", product }) => {
   const { addToCart } = useCart();
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.stopPropagation();
 
     const token = localStorage.getItem("token");
-    if (!token) {
+    const userId = localStorage.getItem("userId");
+
+    if (!token || !userId) {
       window.dispatchEvent(new Event("open-login"));
       return;
     }
 
-    addToCart(product);
-    alert("Product Added to Cart");
+    try {
+      const response = await createCart({
+        userId: Number(userId),
+        products: [
+          {
+            productId: product.id,
+            quantity: 1,
+          },
+        ],
+      });
+
+      if (response?.id) {
+        localStorage.setItem("cartId", response.id);
+      }
+
+      addToCart(product);
+      alert("Product Added to Cart");
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      alert("Unable to add product to cart. Please try again.");
+    }
   };
 
   return (

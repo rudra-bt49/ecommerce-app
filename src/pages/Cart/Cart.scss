@@ -82,12 +82,23 @@
       height: 34px;
       border-radius: 6px;
       border: 1px solid var(--color-border);
-      background: var(--color-background);
+
+      /* ✅ FIX: Explicit contrast */
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+
       font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
 
       &:hover {
-        background: var(--color-surface-hover);
+        background: var(--color-primary);
+        color: #ffffff;
+      }
+
+      &:active {
+        transform: scale(0.96);
       }
     }
 
@@ -95,6 +106,7 @@
       min-width: 24px;
       text-align: center;
       font-weight: 600;
+      color: var(--color-text-primary);
     }
   }
 

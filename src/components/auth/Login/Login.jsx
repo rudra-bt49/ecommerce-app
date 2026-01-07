@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 
 import Input from "../../common/Input/Input";
 import { login } from "../../../services/auth/auth.service";
+import { API } from "../../../config/api";
 
 import "./Login.scss";
 
@@ -25,6 +26,26 @@ const Login = ({ isOpen, onClose }) => {
 
         // Store token
         localStorage.setItem("token", token);
+
+        // 🔥 Fetch users to find logged-in userId
+        const usersRes = await fetch(API.USERS.GET_ALL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!usersRes.ok) {
+          throw new Error("Unable to fetch users");
+        }
+
+        const users = await usersRes.json();
+        const loggedInUser = users.find(
+          (u) => u.username === values.username
+        );
+
+        if (loggedInUser?.id) {
+          localStorage.setItem("userId", loggedInUser.id);
+        }
 
         // 🔥 Notify Navbar immediately
         window.dispatchEvent(new Event("auth-changed"));

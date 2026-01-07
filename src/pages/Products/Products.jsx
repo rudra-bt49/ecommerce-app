@@ -3,6 +3,7 @@ import { getAllProducts } from "../../services/product/product.service";
 import ProductCard from "../../components/product/ProductCard/ProductCard";
 import ProductFilter from "../../components/product/ProductFilter/ProductFilter";
 import ProductSort from "../../components/product/ProductSort/ProductSort";
+import ProductSearch from "../../components/product/ProductSearch/ProductSearch";
 import "./Products.scss";
 
 const ITEMS_PER_PAGE = 6;
@@ -10,6 +11,7 @@ const ITEMS_PER_PAGE = 6;
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchedProducts, setSearchedProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,6 +29,7 @@ const Products = () => {
 
         setProducts(data);
         setFilteredProducts(data);
+        setSearchedProducts(data);
 
         const max = Math.max(...data.map((p) => p.price));
         setSelectedPrice(Math.ceil(max));
@@ -50,8 +53,11 @@ const Products = () => {
     [products]
   );
 
+  /* =========================
+     FILTER + SORT
+  ========================= */
   useEffect(() => {
-    let result = [...products];
+    let result = [...searchedProducts];
 
     if (selectedCategory !== "all") {
       result = result.filter(
@@ -74,7 +80,7 @@ const Products = () => {
     setFilteredProducts(result);
     setCurrentPage(1);
   }, [
-    products,
+    searchedProducts,
     selectedCategory,
     selectedPrice,
     sortOption,
@@ -100,25 +106,22 @@ const Products = () => {
     filteredProducts.length / ITEMS_PER_PAGE
   );
 
-  const safeCurrentPage =
-    totalPages === 0 ? 0 : currentPage;
-
-  const startIndex =
-    totalPages === 0
-      ? 0
-      : (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 
   const paginatedProducts = filteredProducts.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE
   );
 
-  const isPaginationDisabled = totalPages === 0;
-
   return (
     <section className="products">
       <div className="products__container">
         <h2 className="products__title">All Products</h2>
+
+        <ProductSearch
+          products={products}
+          onSearch={setSearchedProducts}
+        />
 
         <ProductFilter
           categories={categories}
@@ -144,22 +147,19 @@ const Products = () => {
           <button
             className="btn btn--secondary"
             onClick={() => setCurrentPage((p) => p - 1)}
-            disabled={isPaginationDisabled || safeCurrentPage <= 1}
+            disabled={currentPage <= 1}
           >
             {"<< Previous"}
           </button>
 
           <span className="products__page-info">
-            Page {safeCurrentPage} of {totalPages}
+            Page {currentPage} of {totalPages}
           </span>
 
           <button
             className="btn btn--secondary"
             onClick={() => setCurrentPage((p) => p + 1)}
-            disabled={
-              isPaginationDisabled ||
-              safeCurrentPage >= totalPages
-            }
+            disabled={currentPage >= totalPages}
           >
             {"Next >>"}
           </button>

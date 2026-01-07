@@ -14,7 +14,6 @@ const Navbar = () => {
     !!localStorage.getItem("token")
   );
 
-  /* 🔁 Sync auth state globally */
   useEffect(() => {
     const syncAuthState = () => {
       setIsAuthenticated(!!localStorage.getItem("token"));
@@ -29,7 +28,9 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("cartId");
+    localStorage.removeItem("cartItems");
 
     window.dispatchEvent(new Event("auth-changed"));
     navigate(ROUTES.HOME);
