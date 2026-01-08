@@ -1,0 +1,74 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.profile {
+  margin-top: map-get($spacing, xl);
+  margin-bottom: map-get($spacing, xxl);
+  max-width: 1000px;
+
+  &__title {
+    text-align: center;
+    margin-bottom: map-get($spacing, xl);
+  }
+
+  /* GRID LAYOUT */
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: map-get($spacing, xl);
+  }
+
+  /* DESKTOP & LARGE SCREENS */
+  @include respond-max(tablet) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ABOVE TABLET */
+  @media (min-width: 769px) {
+    &__grid {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: flex-start;
+    }
+  }
+
+  &__card,
+  &__form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: map-get($spacing, lg);
+  }
+
+  &__card {
+    h3 {
+      margin-bottom: map-get($spacing, sm);
+    }
+
+    p {
+      margin-bottom: map-get($spacing, xs);
+      font-size: map-get($font-sizes, sm);
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spacing, md);
+
+    h3 {
+      margin-bottom: map-get($spacing, sm);
+    }
+
+    button {
+      align-self: flex-start;
+      margin-top: map-get($spacing, sm);
+    }
+  }
+
+  &__loading {
+    text-align: center;
+    margin-top: map-get($spacing, xxl);
+  }
+}

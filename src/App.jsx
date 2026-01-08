@@ -9,6 +9,7 @@ import Login from "./components/auth/Login/Login";
 import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ROUTES from "./config/routes.js";
@@ -65,6 +66,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
 
       <Footer />
