@@ -11,19 +11,20 @@ import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import UserProfile from "./pages/UserProfile/UserProfile";
 
-import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import ManageUsers from "./pages/Admin/ManageUsers";
 import ADMIN_ROUTES from "./config/adminRoutes";
+import ROUTES from "./config/routes";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
-import ROUTES from "./config/routes.js";
 
 function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
 
-  const isAdminRoute = location.pathname.startsWith(ADMIN_ROUTES.DASHBOARD);
+  const isAdminRoute = location.pathname.startsWith(
+    ADMIN_ROUTES.DASHBOARD
+  );
 
   useEffect(() => {
     const openSignup = () => {
@@ -57,16 +58,28 @@ function App() {
       {!isAdminRoute && <Navbar />}
 
       <Routes>
-        <Route path={ROUTES.PRODUCTS} element={<Products />} />
+        <Route
+          path={ROUTES.PRODUCTS}
+          element={
+            <ProtectedRoute role="user">
+              <Products />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path={ROUTES.PRODUCT_DETAILS}
-          element={<ProductDetails />}
+          element={
+            <ProtectedRoute role="user">
+              <ProductDetails />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path={ROUTES.CART}
           element={
-            <ProtectedRoute>
+            <ProtectedRoute role="user">
               <Cart />
             </ProtectedRoute>
           }
@@ -75,7 +88,7 @@ function App() {
         <Route
           path={ROUTES.PROFILE}
           element={
-            <ProtectedRoute>
+            <ProtectedRoute role="user">
               <UserProfile />
             </ProtectedRoute>
           }
@@ -84,9 +97,9 @@ function App() {
         <Route
           path={ADMIN_ROUTES.USERS}
           element={
-            <AdminProtectedRoute>
+            <ProtectedRoute role="admin">
               <ManageUsers />
-            </AdminProtectedRoute>
+            </ProtectedRoute>
           }
         />
       </Routes>
