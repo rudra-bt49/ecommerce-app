@@ -1,0 +1,69 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.admin-sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-logo {
+  font-weight: 700;
+  color: var(--color-primary);
+  padding: map-get($spacing, lg) map-get($spacing, lg) map-get($spacing, md);
+}
+
+.admin-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: map-get($spacing, md);
+}
+
+.admin-nav-link {
+  width: 100%;
+  padding: map-get($spacing, sm) map-get($spacing, lg);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+  background: transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-primary);
+    color: #fff;
+    border-left-color: var(--color-primary);
+  }
+
+  &.active {
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 600;
+    border-left-color: #fff;
+  }
+}
+
+.admin-logout {
+  margin-top: 2px;
+  width: 100%;
+  padding: map-get($spacing, sm) map-get($spacing, lg);
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  border-left: 3px solid transparent;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: var(--color-danger);
+    span {
+      border-bottom-color: var(--color-danger);
+    }
+  }
+}

@@ -12,3 +12,11 @@ export const updateUser = async (id, payload) => {
 
   return axiosInstance.put(API.USERS.UPDATE(id), payload);
 };
+
+export const getAllUsers = async () => {
+  return axiosInstance.get(API.USERS.GET_ALL);
+};
+
+export const deleteUser = async (id) => {
+  return axiosInstance.delete(API.USERS.DELETE(id));
+};

@@ -1,0 +1,39 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.admin {
+  display: flex;
+}
+
+.admin-content {
+  flex: 1;
+  padding: map-get($spacing, lg);
+
+  h2 {
+    margin-bottom: map-get($spacing, md);
+  }
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: 12px;
+  overflow: hidden;
+
+  th,
+  td {
+    padding: map-get($spacing, sm);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  th {
+    background: var(--color-bg-secondary);
+    font-weight: 600;
+  }
+
+  tr:hover {
+    background: var(--color-bg-hover);
+  }
+}
