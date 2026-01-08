@@ -21,11 +21,36 @@ const Login = ({ isOpen, onClose }) => {
 
     onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
       try {
+        /* ===============================
+           🔐 ADMIN LOGIN (ONLY CHANGE)
+        =============================== */
+        if (
+          values.username === "admin" &&
+          values.password === "Admin@123"
+        ) {
+          localStorage.setItem("token", "admin-token");
+          localStorage.setItem("isAdmin", "true");
+
+          // Notify Navbar
+          window.dispatchEvent(new Event("auth-changed"));
+
+          resetForm();
+          onClose();
+
+          // Redirect to Admin Panel
+          window.location.href = "/admin/users";
+          return;
+        }
+
+        /* ===============================
+           👤 NORMAL USER LOGIN
+        =============================== */
         const response = await login(values);
         const { token } = response;
 
         // Store token
         localStorage.setItem("token", token);
+        localStorage.removeItem("isAdmin");
 
         // 🔥 Fetch users to find logged-in userId
         const usersRes = await fetch(API.USERS.GET_ALL, {

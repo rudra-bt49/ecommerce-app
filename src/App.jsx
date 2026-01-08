@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -11,12 +11,19 @@ import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import UserProfile from "./pages/UserProfile/UserProfile";
 
+import AdminProtectedRoute from "./routes/AdminProtectedRoute";
+import ManageUsers from "./pages/Admin/ManageUsers";
+import ADMIN_ROUTES from "./config/adminRoutes";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ROUTES from "./config/routes.js";
 
 function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const location = useLocation();
+
+  const isAdminRoute = location.pathname.startsWith(ADMIN_ROUTES.DASHBOARD);
 
   useEffect(() => {
     const openSignup = () => {
@@ -47,12 +54,10 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
 
-      {/* Routes */}
       <Routes>
         <Route path={ROUTES.PRODUCTS} element={<Products />} />
-
         <Route
           path={ROUTES.PRODUCT_DETAILS}
           element={<ProductDetails />}
@@ -66,6 +71,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path={ROUTES.PROFILE}
           element={
@@ -75,9 +81,17 @@ function App() {
           }
         />
 
+        <Route
+          path={ADMIN_ROUTES.USERS}
+          element={
+            <AdminProtectedRoute>
+              <ManageUsers />
+            </AdminProtectedRoute>
+          }
+        />
       </Routes>
 
-      <Footer />
+      {!isAdminRoute && <Footer />}
 
       <SignUp
         isOpen={showSignup}
