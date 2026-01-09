@@ -14,6 +14,9 @@
   }
 }
 
+/* =======================
+   Table
+======================= */
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -35,5 +38,29 @@
 
   tr:hover {
     background: var(--color-bg-hover);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: map-get($spacing, md);
+  color: var(--color-text-muted);
+}
+
+.btn {
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn--danger {
+  background: map-get($light-colors, danger);
+  color: #fff;
+
+  &:hover {
+    background: darken(map-get($light-colors, danger), 8%);
   }
 }

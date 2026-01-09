@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserById, updateUser } from "../../services/user/user.service";
+
 import Input from "../../components/common/Input/Input";
 import Snackbar from "../../components/common/Snackbar/Snackbar";
+import Loader from "../../components/common/Loader/Loader";
+
 import ROUTES from "../../config/routes";
 import "./UserProfile.scss";
 
@@ -90,7 +93,13 @@ const UserProfile = () => {
     }
   };
 
-  if (loading) return <p className="profile__loading">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="profile__loader">
+        <Loader text="Loading profile..." />
+      </div>
+    );
+  }
 
   return (
     <section className="profile container">
@@ -143,7 +152,9 @@ const UserProfile = () => {
             />
           )}
 
-          <button className="btn btn--primary">Update Profile</button>
+          <button className="btn btn--primary">
+            Update Profile
+          </button>
         </form>
       </div>
 
