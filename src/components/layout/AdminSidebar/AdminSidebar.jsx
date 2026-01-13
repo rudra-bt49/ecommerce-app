@@ -10,6 +10,8 @@ const AdminSidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("admin_products");
+    localStorage.removeItem("localProducts");
     navigate(ROUTES.HOME);
   };
 

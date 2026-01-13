@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { getAllProducts } from "../../services/product/product.service";
+
 import ProductCard from "../../components/product/ProductCard/ProductCard";
 import ProductFilter from "../../components/product/ProductFilter/ProductFilter";
 import ProductSort from "../../components/product/ProductSort/ProductSort";
 import ProductSearch from "../../components/product/ProductSearch/ProductSearch";
+import Loader from "../../components/common/Loader/Loader";
+
 import "./Products.scss";
 
 const ITEMS_PER_PAGE = 6;
@@ -89,7 +92,7 @@ const Products = () => {
   if (loading) {
     return (
       <div className="products__loader">
-        <span className="loader"></span>
+        <Loader text="Loading products..." />
       </div>
     );
   }
@@ -139,7 +142,6 @@ const Products = () => {
           onSortChange={setSortOption}
         />
 
-        {/* ✅ NO PRODUCTS FOUND MESSAGE */}
         {noProductsFound ? (
           <p className="products__status">
             No products found. Try adjusting your search or filters.

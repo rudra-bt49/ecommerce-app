@@ -56,19 +56,3 @@
     margin-top: map-get($spacing, xl);
   }
 }
-
-/* Loader */
-.loader {
-  width: 42px;
-  height: 42px;
-  border: 4px solid #ddd;
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}

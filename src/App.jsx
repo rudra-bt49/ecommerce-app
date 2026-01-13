@@ -12,6 +12,8 @@ import Cart from "./pages/Cart/Cart";
 import UserProfile from "./pages/UserProfile/UserProfile";
 
 import ManageUsers from "./pages/Admin/ManageUsers";
+import ManageProducts from "./pages/Admin/ManageProducts";
+
 import ADMIN_ROUTES from "./config/adminRoutes";
 import ROUTES from "./config/routes";
 
@@ -94,11 +96,22 @@ function App() {
           }
         />
 
+        {/* ================= ADMIN ROUTES ================= */}
+
         <Route
           path={ADMIN_ROUTES.USERS}
           element={
             <ProtectedRoute role="admin">
               <ManageUsers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ADMIN_ROUTES.PRODUCTS}
+          element={
+            <ProtectedRoute role="admin">
+              <ManageProducts />
             </ProtectedRoute>
           }
         />

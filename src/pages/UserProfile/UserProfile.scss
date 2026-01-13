@@ -18,7 +18,7 @@
     gap: map-get($spacing, xl);
   }
 
-  /* DESKTOP & LARGE SCREENS */
+  /* MOBILE & TABLET */
   @include respond-max(tablet) {
     &__grid {
       grid-template-columns: 1fr;
@@ -67,8 +67,9 @@
     }
   }
 
-  &__loading {
-    text-align: center;
+  &__loader {
+    display: flex;
+    justify-content: center;
     margin-top: map-get($spacing, xxl);
   }
 }
